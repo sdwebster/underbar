@@ -67,10 +67,8 @@
     }
     /*if it's not an array, then it's an object*/
     else {
-      var i = 0;
       for (var prop in collection) {
-        iterator(prop, i, collection);
-        i++;
+        iterator(collection[prop], prop, collection); 
       };
     }
   };
@@ -113,6 +111,20 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    // Did not use _.each because we want to use the i and compare it to j
+    var result = [];
+    for (var i = 0; i<array.length; i++) {
+      var first_appearance = true;
+      for (var j = 0; j < i; j++) {
+        if (array[i] === array[j]) {
+          first_appearance = false;
+        }
+      }
+      if (first_appearance) {
+        result.push(array[i]);
+      }
+    }
+    return result;
   };
 
 
