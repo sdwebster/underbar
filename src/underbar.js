@@ -38,7 +38,21 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    var len = array.length;
+    var result = [];
+    if (n === undefined) {
+      result = array[len - 1];
+    }
+    /* Math.min is apparently not available to us. Clearer to handle this casewise, anyway. */ 
+    else if (n <= len) {
+      result = array.slice((len - n), len);
+    } 
+    else {
+      result = array;
+    }
+    return result;
   };
+
 
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
@@ -299,3 +313,5 @@
   _.throttle = function(func, wait) {
   };
 }());
+
+
