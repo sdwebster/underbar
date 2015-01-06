@@ -60,6 +60,19 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+        iterator(collection[i], i, collection);
+      };
+    }
+    /*if it's not an array, then it's an object*/
+    else {
+      var i = 0;
+      for (var prop in collection) {
+        iterator(prop, i, collection);
+        i++;
+      };
+    }
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -81,12 +94,21 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var passed = [];
+    _.each(collection, function(item) {
+      if (test(item)) {
+        passed.push(item);
+      }
+    });
+    return passed;
   };
+
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
-    // TIP: see if you can re-use _.filter() here, without simply
-    // copying code in and modifying it
+    return _.filter(collection, function(item) {
+      return !test(item);
+    });
   };
 
   // Produce a duplicate-free version of the array.
