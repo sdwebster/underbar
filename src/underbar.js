@@ -111,7 +111,22 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
-    // Did not use _.each because we want to use the i and compare it to j
+    var result = [];
+    _.each(array, function(item, i){
+      var first_appearance = true;
+      for (var j=0; j<i; j++) {
+        if (item === array[j]) {
+          first_appearance = false;
+        }
+      }
+      if (first_appearance) {
+        result.push(item);
+      }      
+    });
+    return result;
+
+    // This pre-refactor version does the same thing, but without using _.each
+    /*
     var result = [];
     for (var i = 0; i<array.length; i++) {
       var first_appearance = true;
@@ -125,6 +140,7 @@
       }
     }
     return result;
+    */
   };
 
 
