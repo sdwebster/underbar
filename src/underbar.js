@@ -195,18 +195,16 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    var accumulator;
-    //handle first element casewise
-    if (accumulator === undefined){
-      accumulator = collection[0];
-    }
-    else {
-      accumulator = iterator(accumulator, collection[0]);
-    }
-    //handle remaining elements in a loop
-    for (var i = 1; i<collection.length; i++) {
-      accumulator = iterator(accumulator, collection[i]);
-    }
+    var first_item = true;
+    _.each(collection, function(item){
+      if ((first_item) & (accumulator === undefined)) {
+        accumulator = item;
+      }
+      else {
+        accumulator = iterator(accumulator, item);
+      }
+      first_item = false;
+    });
     return accumulator;
   };
 
@@ -225,6 +223,14 @@
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    return _.reduce(collection, function(passedTests, item){
+      if (passedTests) {
+        return iterator(item);
+      }
+      else {
+        return false;
+      }
+    }, true); 
     // TIP: Try re-using reduce() here.
   };
 
