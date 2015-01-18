@@ -268,21 +268,37 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function(obj) {
-    var firstArg = true;
-    result = {};
+  _.extend = function(obj1, obj2) {
+    /*
+    return _.reduce(obj2, function(extended, item){
+      extended[item] = obj2[item];
+      return extended;
+    }, obj1);
+*/
 
-    _.each(obj, function(key) {
     
+    var result = arguments[0];
+    for (var i = 1; i < arguments.length; i++){
+      for (var key in arguments[i]){
+        result[key] = arguments[i][key];
+      }
+    }
+    return result;
+
+
+
+
+
+/*
+    _.each(obj, function(key) {
       if (firstArg) {
         result = prop;
       };
       firstArg = false;
     });
-    
-    return result;
 
-    /*
+
+
     return ._reduce(obj, function(extendedObj, key) {
     });
     */ 
