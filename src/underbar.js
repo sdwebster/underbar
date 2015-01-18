@@ -269,14 +269,15 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj1, obj2) {
-    /*
-    return _.reduce(obj2, function(extended, item){
-      extended[item] = obj2[item];
-      return extended;
-    }, obj1);
-*/
 
-    
+/*Could come back and try to write this with reduce
+/*
+    return reduce(arguments, function(result, arg){
+      for (var key in arg){
+        result[key] = arg[key];
+      }
+    });
+*/
     var result = arguments[0];
     for (var i = 1; i < arguments.length; i++){
       for (var key in arguments[i]){
@@ -284,29 +285,24 @@
       }
     }
     return result;
-
-
-
-
-
-/*
-    _.each(obj, function(key) {
-      if (firstArg) {
-        result = prop;
-      };
-      firstArg = false;
-    });
-
-
-
-    return ._reduce(obj, function(extendedObj, key) {
-    });
-    */ 
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+
+/*again: this could probably be done neatlier with reduce*/
+
+    var result = arguments[0];
+    for (var i = 1; i < arguments.length; i++){
+      for (var key in arguments[i]){
+        if (! result.hasOwnProperty(key)){
+          result[key] = arguments[i][key];
+        }
+      }
+    }
+    return result;
+
   };
 
 
